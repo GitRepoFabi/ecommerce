@@ -1,0 +1,198 @@
+import { log } from "console";
+import { json, Router } from "express";
+import { promises as fs} from 'fs';
+import { resolve } from "path";
+
+const router = Router();
+
+let id = 0;
+let status = true;
+
+let productos = [];
+
+//GET - Leer todos los productos
+
+router.get('/', async (req,res) => {
+
+    try {
+        // Leer el archivo productos.json
+        const lecturaProductos = await fs.readFile('./productos.json', 'utf-8');
+
+        // Verificar si el archivo está vacío
+        if (!lecturaProductos.trim()) { 
+            return res.status(400).send({ status: 'Error', message: 'El archivo productos.json está vacío, cree un producto' }); 
+        } 
+
+        //Lo transformo a objeto
+        const contenidoObj = JSON.parse(lecturaProductos);
+
+        if (!contenidoObj.length) { 
+            return res.status(400).send({ status: 'Error', message: 'No hay productos disponibles' }); 
+        } 
+        res.send({ status: 'OK', productos: contenidoObj });  
+    } catch (error) {
+        if (error.code === 'ENOENT') { 
+            // El archivo no existe 
+            //res.status(404).send({ status: 'Error', message: 'El archivo productos.json no existe' }); }
+            res.status(404).send({ status: 'Error', message: 'Debe de crear al menos un producto' }); } 
+        else {
+            res.status(500).send({ status: 'Error', message: `Error al leer el archivo: ${error.message}` }); 
+        } 
+    }
+});
+
+// Fin método GET //
+
+//GET by Id - Mostrar el producto por el Id que me pasaron
+
+router.get('/:id', async (req,res) => {
+    try {
+
+        let id = req.params.id
+
+        // Leer el archivo productos.json
+        const lecturaProductos = await fs.readFile('./productos.json', 'utf-8');
+
+        //Lo transformo a objeto
+        const contenidoObj = JSON.parse(lecturaProductos);
+        
+        //let productoFiltrado = arrayRecuperado.find((pr) => pr.id == id);
+        let productoFiltrado = contenidoObj.find((pr) => pr.id == id);
+
+        //Si no tengo ningún producto retorno el error
+        if(!productoFiltrado){
+            return res.status(400).send({status:"Error",message:"No se encuentra el producto enviado"});
+        } 
+
+        res.send({status:"OK", productos:productoFiltrado});
+        
+    } catch (error) {
+        throw new Error(`Ha ocurrido un error: ${error}`);
+    }
+});
+
+//POST - Creación de productos
+
+router.post('/', async (req,res) => {
+    try {
+        const acceso = await fs.access('./productos.json');
+        console.log('Existe');
+
+        // Leer el archivo productos.json
+        const lecturaProductos = await fs.readFile('./productos.json', 'utf-8');
+
+        //Lo transformo a objeto
+        const contenidoObj = JSON.parse(lecturaProductos);
+
+        let id = contenidoObj.length + 1;
+
+        //Me quedo con lo que me envían por el body de la petición
+        let body = req.body;
+        
+
+        //Realizo los controles correspondientes con la info que si o si me debe de llegar
+        if (!body.titulo||!body.descripión||!body.codigo||!body.precio||!body.stock||!body.categoria){
+            return res.status(400).send({status:"Error",error:"Falta completar algún dato"});
+        }
+
+        //Armo el nuevo arreglo para luego agregarlo al array de productos
+        let nuevoArreglo = {id, ...body,status}
+
+        console.log(JSON.stringify(nuevoArreglo, null, 2));
+
+        //Agrego el nuevo arreglo al arreglo Productos
+        productos.push(nuevoArreglo);
+
+        //Persiste la info del arreglo en el archivo productos.json
+        await fs.writeFile('./productos.json', JSON.stringify(productos, null, 2));
+
+        console.log('Se ha agregado el producto correctamente.');
+
+        //Retorno que se agregó el producto y lo muestro por pantalla
+        res.send({status:"OK",message:"Se ha agregado el producto correctamente",productos: productos});            
+
+    } catch {
+        let id = productos.length + 1;
+
+        //Me quedo con lo que me envían por el body de la petición
+        let body = req.body;
+
+        //Realizo los controles correspondientes con la info que si o si me debe de llegar
+        if (!body.titulo||!body.descripión||!body.codigo||!body.precio||!body.stock||!body.categoria){
+            return res.status(400).send({status:"Error",error:"Falta completar algún dato"});
+        }
+
+        //Armo el nuevo arreglo para luego agregarlo al array de productos
+        let nuevoArreglo = {id, ...body,status}
+
+        //Agrego el nuevo arreglo al arreglo Productos
+        productos.push(nuevoArreglo);
+
+        //Persiste la info del arreglo en el archivo productos.json
+        await fs.writeFile('./productos.json', JSON.stringify(productos, null, 2));
+
+        console.log('Se ha agregado el producto correctamente.');
+
+        //Retorno que se agregó el producto y lo muestro por pantalla
+        res.send({status:"OK",message:"Se ha agregado el producto correctamente",productos: productos});              
+    }
+});
+
+// Fin método POST //
+
+//PUT - Edición de pruducto
+router.put('/:id', async (req,res) => {
+    const id = req.params.id;
+    const {titulo,descripión,codigo,precio,stock,categoria} = req.body;
+
+    try {
+        // Leer el archivo productos.json
+        let lecturaProductos = await fs.readFile('./productos.json', 'utf-8');
+
+        //Lo transformo a objeto
+        let contenidoObj = JSON.parse(lecturaProductos);
+        
+        console.log('Id enviado: ',id);
+
+        const indiceProducto = contenidoObj.findIndex(p => p.id == id);
+
+        console.log('Contenido del archivo: ',contenidoObj);
+        console.log('Indice encontrado: ', indiceProducto);
+
+        if (indiceProducto === -1){
+            return res.status(404).send({status: 'error', message:'Producto no encontrado'});
+        }
+
+         const productoActualizado = [{
+            ...contenidoObj[indiceProducto],
+            id: id || contenidoObj[indiceProducto].id,
+            titulo: titulo || contenidoObj[indiceProducto].titulo,
+            descripión: descripión || contenidoObj[indiceProducto].descripión,
+            codigo: codigo || contenidoObj[indiceProducto].codigo,
+            precio: precio || contenidoObj[indiceProducto].precio,
+            stock: stock || contenidoObj[indiceProducto].stock,
+            categoria: categoria || contenidoObj[indiceProducto].categoria
+        }]
+
+        contenidoObj[indiceProducto] = productoActualizado;
+
+        console.log(contenidoObj[indiceProducto]);
+        
+
+        //lecturaProductos[indiceProducto] = productoActualizado;
+        //Persiste la info del arreglo en el archivo productos.json
+        await fs.writeFile('./productos.json', JSON.stringify(productoActualizado, null, 2));
+
+        res.send({
+            status:'OK',
+            message: 'Se actualizó el producto',
+            producto: productoActualizado
+        })
+    } catch (error) {
+        res.status(500).send({status:'error',message:'Error al actualizar el producto'});
+    }
+});
+
+// Fin método PUT //
+
+export default router;
