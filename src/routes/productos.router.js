@@ -7,6 +7,7 @@ const router = Router();
 
 let id = 0;
 let status = true;
+let thumbnails = [];
 
 let productos = [];
 
@@ -16,7 +17,7 @@ router.get('/', async (req,res) => {
 
     try {
         // Leer el archivo productos.json
-        const lecturaProductos = await fs.readFile('./productos.json', 'utf-8');
+        const lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
 
         // Verificar si el archivo está vacío
         if (!lecturaProductos.trim()) { 
@@ -51,7 +52,7 @@ router.get('/:id', async (req,res) => {
         let id = req.params.id
 
         // Leer el archivo productos.json
-        const lecturaProductos = await fs.readFile('./productos.json', 'utf-8');
+        const lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
 
         //Lo transformo a objeto
         const contenidoObj = JSON.parse(lecturaProductos);
@@ -74,12 +75,13 @@ router.get('/:id', async (req,res) => {
 //POST - Creación de productos
 
 router.post('/', async (req,res) => {
+    
     try {
-        const acceso = await fs.access('./productos.json');
+        const acceso = await fs.access('src/db/productos.json');
         console.log('Existe');
 
         // Leer el archivo productos.json
-        const lecturaProductos = await fs.readFile('./productos.json', 'utf-8');
+        const lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
 
         //Lo transformo a objeto
         const contenidoObj = JSON.parse(lecturaProductos);
@@ -88,7 +90,6 @@ router.post('/', async (req,res) => {
 
         //Me quedo con lo que me envían por el body de la petición
         let body = req.body;
-        
 
         //Realizo los controles correspondientes con la info que si o si me debe de llegar
         if (!body.titulo||!body.descripión||!body.codigo||!body.precio||!body.stock||!body.categoria){
@@ -96,7 +97,7 @@ router.post('/', async (req,res) => {
         }
 
         //Armo el nuevo arreglo para luego agregarlo al array de productos
-        let nuevoArreglo = {id, ...body,status}
+        let nuevoArreglo = {id, ...body,status,thumbnails}
 
         console.log(JSON.stringify(nuevoArreglo, null, 2));
 
@@ -104,7 +105,7 @@ router.post('/', async (req,res) => {
         productos.push(nuevoArreglo);
 
         //Persiste la info del arreglo en el archivo productos.json
-        await fs.writeFile('./productos.json', JSON.stringify(productos, null, 2));
+        await fs.writeFile('src/db/productos.json', JSON.stringify(productos, null, 2));
 
         console.log('Se ha agregado el producto correctamente.');
 
@@ -123,13 +124,13 @@ router.post('/', async (req,res) => {
         }
 
         //Armo el nuevo arreglo para luego agregarlo al array de productos
-        let nuevoArreglo = {id, ...body,status}
+        let nuevoArreglo = {id, ...body,status,thumbnails}
 
         //Agrego el nuevo arreglo al arreglo Productos
         productos.push(nuevoArreglo);
 
         //Persiste la info del arreglo en el archivo productos.json
-        await fs.writeFile('./productos.json', JSON.stringify(productos, null, 2));
+        await fs.writeFile('src/db/productos.json', JSON.stringify(productos, null, 2));
 
         console.log('Se ha agregado el producto correctamente.');
 
@@ -147,7 +148,7 @@ router.put('/:id', async (req,res) => {
 
     try {
         // Leer el archivo productos.json
-        let lecturaProductos = await fs.readFile('./productos.json', 'utf-8');
+        let lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
 
         //Lo transformo a objeto
         let contenidoObj = JSON.parse(lecturaProductos);
@@ -181,7 +182,7 @@ router.put('/:id', async (req,res) => {
 
         //lecturaProductos[indiceProducto] = productoActualizado;
         //Persiste la info del arreglo en el archivo productos.json
-        await fs.writeFile('./productos.json', JSON.stringify(productoActualizado, null, 2));
+        await fs.writeFile('src/db/productos.json', JSON.stringify(productoActualizado, null, 2));
 
         res.send({
             status:'OK',
@@ -194,5 +195,33 @@ router.put('/:id', async (req,res) => {
 });
 
 // Fin método PUT //
+
+//DELETE - Borrar un producto
+
+router.delete('/:id', async (req,res) => {
+    let id = req.params.id;
+    
+    try {
+
+        // Leer el archivo productos.json
+        let lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
+
+        //Lo transformo a objeto
+        let contenidoObj = JSON.parse(lecturaProductos);
+
+        let productoFiltrado = contenidoObj.filter(p => p.id != id);
+
+
+        //Persiste la info del arreglo en el archivo productos.json
+        await fs.writeFile('src/db/productos.json', JSON.stringify(productoFiltrado, null, 2));
+
+        res.send({status:'OK',message:"Producto eliminado correctamente", producto: productoFiltrado})
+
+    } catch (error) {
+        res.status(500).send({status:'error',message:'Error al eliminar el producto'});
+    }
+
+    // Fin método DELETE //
+});
 
 export default router;

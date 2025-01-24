@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "titulo": "Sillón",
+    "descripión": "Redondo 14",
+    "codigo": "8754477",
+    "precio": 40000,
+    "stock": 100,
+    "categoria": "Sillón",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "id": 2,
+    "titulo": "Celuluar",
+    "descripión": "Iphone 14",
+    "codigo": "8754477",
+    "precio": 40000,
+    "stock": 100,
+    "categoria": "Celular",
+    "status": true,
+    "thumbnails": []
+  }
+]
