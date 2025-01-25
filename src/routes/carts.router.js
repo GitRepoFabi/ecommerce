@@ -112,33 +112,4 @@ router.get('/:id',async(req,res) => {
 
 // Fin método GET con id //
 
-
-//Ejemplo actualización de una persona en un archivo (método PUT)
-/* router.put('/prueba/:id', async (req,res) => {
-
-    let idParametro = req.params.id;
-
-    let personas = await fs.readFile("src/db/personas.json","utf-8");
-
-    let contenidoObj = JSON.parse(personas);
-
-    console.log("personas inicialmente:",contenidoObj);
-
-    // Encuentra el índice del objeto que deseas actualizar
-    let indice = contenidoObj.findIndex(persona => persona.id == idParametro);
-
-    // Verifica si el objeto fue encontrado
-    if (indice !== -1) {
-        // Actualiza la propiedad deseada
-        //contenidoObj[indice].edad = 31;
-        contenidoObj[indice].edad = contenidoObj[indice].edad + 1;
-        
-    }
-
-    await fs.writeFile('src/db/personas.json',JSON.stringify(contenidoObj,null,2));
-
-    console.log("Personas finales: ", contenidoObj);
-    res.send({status:'OK',message:'Persona finales: ', contenidoObj})
-}); */
-
 export default router;

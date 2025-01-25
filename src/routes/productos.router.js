@@ -106,6 +106,7 @@ router.post('/', async (req,res) => {
 
         //Persiste la info del arreglo en el archivo productos.json
         await fs.writeFile('src/db/productos.json', JSON.stringify(productos, null, 2));
+        //await fs.appendFile('src/db/productos.json', JSON.stringify(productos, null, 2));
 
         console.log('Se ha agregado el producto correctamente.');
 
@@ -141,57 +142,43 @@ router.post('/', async (req,res) => {
 
 // Fin método POST //
 
-//PUT - Edición de pruducto
+
+//PUT - Edición de pruducto por Id
+
+//Ejemplo actualización de una persona en un archivo (método PUT)
 router.put('/:id', async (req,res) => {
-    const id = req.params.id;
+
+    const idParametro = req.params.id;
     const {titulo,descripión,codigo,precio,stock,categoria} = req.body;
 
     try {
-        // Leer el archivo productos.json
-        let lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
+    const productos = await fs.readFile("src/db/productos.json","utf-8");
 
-        //Lo transformo a objeto
-        let contenidoObj = JSON.parse(lecturaProductos);
-        
-        console.log('Id enviado: ',id);
+    const contenidoObj = JSON.parse(productos);
 
-        const indiceProducto = contenidoObj.findIndex(p => p.id == id);
+    console.log("Productos inicialmente:",contenidoObj);
 
-        console.log('Contenido del archivo: ',contenidoObj);
-        console.log('Indice encontrado: ', indiceProducto);
+    // Encuentra el índice del objeto que deseas actualizar
+    let indice = contenidoObj.findIndex(pr => pr.id == idParametro);
 
-        if (indiceProducto === -1){
-            return res.status(404).send({status: 'error', message:'Producto no encontrado'});
-        }
-
-         const productoActualizado = [{
-            ...contenidoObj[indiceProducto],
-            id: id || contenidoObj[indiceProducto].id,
-            titulo: titulo || contenidoObj[indiceProducto].titulo,
-            descripión: descripión || contenidoObj[indiceProducto].descripión,
-            codigo: codigo || contenidoObj[indiceProducto].codigo,
-            precio: precio || contenidoObj[indiceProducto].precio,
-            stock: stock || contenidoObj[indiceProducto].stock,
-            categoria: categoria || contenidoObj[indiceProducto].categoria
-        }]
-
-        contenidoObj[indiceProducto] = productoActualizado;
-
-        console.log(contenidoObj[indiceProducto]);
-        
-
-        //lecturaProductos[indiceProducto] = productoActualizado;
-        //Persiste la info del arreglo en el archivo productos.json
-        await fs.writeFile('src/db/productos.json', JSON.stringify(productoActualizado, null, 2));
-
-        res.send({
-            status:'OK',
-            message: 'Se actualizó el producto',
-            producto: productoActualizado
-        })
-    } catch (error) {
-        res.status(500).send({status:'error',message:'Error al actualizar el producto'});
+    // Verifica si el objeto fue encontrado
+    if (indice !== -1) {
+        // Actualiza la propiedad deseada
+        //contenidoObj[indice].edad = 31;
+        contenidoObj[indice].titulo = titulo;
+        contenidoObj[indice].descripión = descripión;
+        contenidoObj[indice].codigo = codigo;
+        contenidoObj[indice].precio = precio;
+        contenidoObj[indice].stock = stock;
+        contenidoObj[indice].categoria = categoria;
     }
+
+    await fs.writeFile('src/db/productos.json',JSON.stringify(contenidoObj,null,2));
+
+    res.send({status:'OK',message:'Productos finales: ', contenidoObj});
+    } catch(error) {
+        res.status(500).send({status:'Error',message:'Ha ocurrido un error en la edición del producto:', error});
+}
 });
 
 // Fin método PUT //
