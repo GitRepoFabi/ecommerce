@@ -1,5 +1,6 @@
 import express from 'express';
 import routerProducts from './routes/productos.router.js';
+import routerCarts from './routes/carts.router.js';
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(express.urlencoded({ extended : true}));
 /* app.use(morgan("tiny")); */
 
 app.use("/api/products",routerProducts);
+app.use("/api/carts",routerCarts);
 
 /* //POST - Creación de productos
 
