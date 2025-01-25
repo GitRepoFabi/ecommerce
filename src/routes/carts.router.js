@@ -114,7 +114,7 @@ router.get('/:id',async(req,res) => {
 
 
 //Ejemplo actualización de una persona en un archivo (método PUT)
-router.put('/prueba/:id', async (req,res) => {
+/* router.put('/prueba/:id', async (req,res) => {
 
     let idParametro = req.params.id;
 
@@ -139,6 +139,6 @@ router.put('/prueba/:id', async (req,res) => {
 
     console.log("Personas finales: ", contenidoObj);
     res.send({status:'OK',message:'Persona finales: ', contenidoObj})
-});
+}); */
 
 export default router;
