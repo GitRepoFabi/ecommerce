@@ -14,4 +14,4 @@
 <p>URL Endpoint: http://localhost:8080/api/products</p>
 <p>El objeto del mismo es listar todos los productos de la base que se vayan agregando</p>
 <h3>Ejecución:</h3>
-![Consulta_Productos](https://github.com/user-attachments/assets/546cc516-87cf-42a2-9996-e7972e7e6308)
+![Image](https://github.com/user-attachments/assets/bf37e7b3-637f-48de-9995-24b9b1ad9313)
