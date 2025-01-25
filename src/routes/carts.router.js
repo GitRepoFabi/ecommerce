@@ -31,8 +31,8 @@ router.post('/',async(req,res) => {
 
 //POST - Creación de carrito/productos
 router.post('/:cid/products/:pid',async(req,res) => {
-    let idCarrito = req.params.cid;
-    let idProducto = req.params.pid;
+    const idCarrito = req.params.cid;
+    const idProducto = req.params.pid;
     let cantidad = 0;
 
     try {
@@ -83,7 +83,7 @@ router.post('/:cid/products/:pid',async(req,res) => {
 //GET con ID
 router.get('/:id',async(req,res) => {
     
-    let idParametro = req.params.id;
+    const idParametro = req.params.id;
 
     try {
         // Leer el archivo carrito.json
