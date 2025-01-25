@@ -49,16 +49,15 @@ router.get('/', async (req,res) => {
 router.get('/:id', async (req,res) => {
     try {
 
-        let id = req.params.id
+        const id = req.params.id
 
         // Leer el archivo productos.json
         const lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
 
         //Lo transformo a objeto
         const contenidoObj = JSON.parse(lecturaProductos);
-        
-        //let productoFiltrado = arrayRecuperado.find((pr) => pr.id == id);
-        let productoFiltrado = contenidoObj.find((pr) => pr.id == id);
+
+        const productoFiltrado = contenidoObj.find((pr) => pr.id == id);
 
         //Si no tengo ningún producto retorno el error
         if(!productoFiltrado){
@@ -191,10 +190,10 @@ router.delete('/:id', async (req,res) => {
     try {
 
         // Leer el archivo productos.json
-        let lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
+        const lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
 
         //Lo transformo a objeto
-        let contenidoObj = JSON.parse(lecturaProductos);
+        const contenidoObj = JSON.parse(lecturaProductos);
 
         let productoFiltrado = contenidoObj.filter(p => p.id != id);
 
