@@ -10,7 +10,7 @@
  
   Dichos endpoints estarán implementados con el router de express.
 
-  La persistencia de la información se implementará utilizando el file system, donde los archivos “productos,json”  y “carrito.json”, respaldan la información.
+  La persistencia de la información se implementará utilizando el file system, donde los archivos “productos.json”  y “carrito.json”, respaldan la información.
 </p>
 
 <h3>Sección Productos:</h3>
