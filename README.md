@@ -50,7 +50,7 @@
 <p>URL Endpoint: <a href="http://localhost:8080/api/products/2">http://localhost:8080/api/products/2</a></p>
 
 <p>El objeto del mismo es editar el producto que se le pase por parámetro, en este ejemplo en la URL donde dice 2 debería ir el Id del producto que se quiera editar.</p>
-<p>Para crear el mismo se deberá pasar los siguientes parámetros:</p>
+<p>Para editar el mismo se deberán pasar los siguientes parámetros:</p>
 <ul>
     <li>titulo</li>
     <li>descripción</li>
