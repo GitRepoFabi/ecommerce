@@ -34,7 +34,8 @@ router.post('/',async(req,res) => {
 router.post('/:cid/products/:pid', async (req, res) => {
     const idCarrito = req.params.cid;
     const idProducto = req.params.pid;
-    let cantidad = 0;
+    //let cantidad = 0;
+    let quantity = 0;
 
     try {
         // Leer los archivos carrito.json y productos.json
@@ -57,12 +58,14 @@ router.post('/:cid/products/:pid', async (req, res) => {
 
                 if (productoExistente) {
                     // Si el producto ya existe, incrementamos la cantidad
-                    productoExistente.cantidad += 1;
+                    //productoExistente.cantidad += 1;
+                    productoExistente.quantity += 1;
                 } else {
                     // Si el producto no existe en el carrito, lo agregamos
                     let nuevoProducto = {
                         id: idProducto,
-                        cantidad: cantidad + 1
+                        //cantidad: cantidad + 1
+                        quantity: quantity + 1
                     };
                     filtrocarrito.products.push(nuevoProducto);
                 }
@@ -72,10 +75,10 @@ router.post('/:cid/products/:pid', async (req, res) => {
 
                 res.send({ status: 'OK', message: filtrocarrito });
             } else {
-                res.send({ status: 'Error', message: 'El producto no existe' });
+                res.send({ status: 'Error', message: 'El producto que envió no existe' });
             }
         } else {
-            res.send({ status: 'Error', message: 'El carrito no existe' });
+            res.send({ status: 'Error', message: 'El carrito que usted envió no existe' });
         }
 
     } catch (error) {
@@ -83,61 +86,8 @@ router.post('/:cid/products/:pid', async (req, res) => {
     }
 });
 
-
-
-/*
-router.post('/:cid/products/:pid',async(req,res) => {
-    const idCarrito = req.params.cid;
-    const idProducto = req.params.pid;
-    let cantidad = 0;
-
-    try {
-        // Leer el archivo carrito.json
-        let carrito = await fs.readFile("src/db/carrito.json","utf-8");
-        let producto = await fs.readFile("src/db/productos.json","utf-8");
-
-        //Convierto a objeto el string que me viene arriba
-        let contenidoObjCarrito = JSON.parse(carrito);
-        let contenidoObjProductos = JSON.parse(producto); 
-        
-        let indiceCarrito = contenidoObjCarrito.findIndex(carrito => carrito.id == idCarrito);
-        let indiceProductos = contenidoObjProductos.findIndex(productos => productos.id == idProducto);
-
-        if (indiceCarrito !== -1 ){
-            
-            if (indiceProductos !== -1 ) {
-
-                let filtrocarrito = contenidoObjCarrito.find(car => car.id == idCarrito);
-
-                let nuevoProducto = {
-                    id: idProducto,
-                    cantidad: cantidad + 1
-                }
-
-                filtrocarrito.products.push(nuevoProducto)
-
-                await fs.writeFile('src/db/carrito.json',JSON.stringify(filtrocarrito,null,2));
-
-                res.send({status:'OK',message:filtrocarrito});
-                
-            } else {
-                res.send({status:'OK',message:'El producto que envió no existe'})
-            }
-            
-
-        } else {
-            res.send({status:'Error',message:"El carrito que usted envió no existe"});
-        }
-               
-    } catch (error) {
-        res.status(500).send("Ha ocurrido un error: ", error);
-    }
-});
-*/
-
-
-
 // Fin método POST con producto //
+
 
 //GET con ID
 router.get('/:id',async(req,res) => {

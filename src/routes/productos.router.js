@@ -49,15 +49,16 @@ router.get('/', async (req,res) => {
 router.get('/:id', async (req,res) => {
     try {
 
-        const id = req.params.id
+        let id = req.params.id
 
         // Leer el archivo productos.json
         const lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
 
         //Lo transformo a objeto
         const contenidoObj = JSON.parse(lecturaProductos);
-
-        const productoFiltrado = contenidoObj.find((pr) => pr.id == id);
+        
+        //let productoFiltrado = arrayRecuperado.find((pr) => pr.id == id);
+        let productoFiltrado = contenidoObj.find((pr) => pr.id == id);
 
         //Si no tengo ningún producto retorno el error
         if(!productoFiltrado){
@@ -91,7 +92,8 @@ router.post('/', async (req,res) => {
         let body = req.body;
 
         //Realizo los controles correspondientes con la info que si o si me debe de llegar
-        if (!body.titulo||!body.descripión||!body.codigo||!body.precio||!body.stock||!body.categoria){
+        //if (!body.titulo||!body.descripión||!body.codigo||!body.precio||!body.stock||!body.categoria){
+        if (!body.title||!body.description||!body.code||!body.price||!body.stock||!body.category){    
             return res.status(400).send({status:"Error",error:"Falta completar algún dato"});
         }
 
@@ -119,7 +121,8 @@ router.post('/', async (req,res) => {
         let body = req.body;
 
         //Realizo los controles correspondientes con la info que si o si me debe de llegar
-        if (!body.titulo||!body.descripión||!body.codigo||!body.precio||!body.stock||!body.categoria){
+        //if (!body.titulo||!body.descripión||!body.codigo||!body.precio||!body.stock||!body.categoria){
+        if (!body.title||!body.description||!body.code||!body.price||!body.stock||!body.category){
             return res.status(400).send({status:"Error",error:"Falta completar algún dato"});
         }
 
@@ -148,7 +151,13 @@ router.post('/', async (req,res) => {
 router.put('/:id', async (req,res) => {
 
     const idParametro = req.params.id;
-    const {titulo,descripión,codigo,precio,stock,categoria} = req.body;
+    //const {titulo,descripión,codigo,precio,stock,categoria} = req.body;
+    const {title,description,code,price,stock,category} = req.body;
+
+    //if (!body.title||!body.description||!body.code||!body.price||!body.stock||!body.category){
+    if (!title||!description||!code||!price||!stock||!category){        
+        return res.status(400).send({status:"Error",error:"Falta enviar algua de las propiedades obligatorias para actualizar el producto"});
+    }
 
     try {
     const productos = await fs.readFile("src/db/productos.json","utf-8");
@@ -164,12 +173,12 @@ router.put('/:id', async (req,res) => {
     if (indice !== -1) {
         // Actualiza la propiedad deseada
         //contenidoObj[indice].edad = 31;
-        contenidoObj[indice].titulo = titulo;
-        contenidoObj[indice].descripión = descripión;
-        contenidoObj[indice].codigo = codigo;
-        contenidoObj[indice].precio = precio;
+        contenidoObj[indice].title = title;
+        contenidoObj[indice].description = description;
+        contenidoObj[indice].code = code;
+        contenidoObj[indice].price = price;
         contenidoObj[indice].stock = stock;
-        contenidoObj[indice].categoria = categoria;
+        contenidoObj[indice].category = category;
     }
 
     await fs.writeFile('src/db/productos.json',JSON.stringify(contenidoObj,null,2));
@@ -190,10 +199,10 @@ router.delete('/:id', async (req,res) => {
     try {
 
         // Leer el archivo productos.json
-        const lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
+        let lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
 
         //Lo transformo a objeto
-        const contenidoObj = JSON.parse(lecturaProductos);
+        let contenidoObj = JSON.parse(lecturaProductos);
 
         let productoFiltrado = contenidoObj.filter(p => p.id != id);
 
