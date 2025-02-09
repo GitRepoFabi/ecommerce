@@ -1,23 +1,34 @@
 [
   {
     "id": 1,
-    "title": "Cenicero",
-    "description": "Cenicero Rojo",
-    "code": "0982",
-    "price": "100",
-    "stock": "10",
-    "category": "Ceniceros",
+    "title": "Sillón",
+    "description": "Redondo 14",
+    "code": "8754477",
+    "price": 40000,
+    "stock": 100,
+    "category": "Sillón",
     "status": true,
     "thumbnails": []
   },
   {
     "id": 2,
-    "title": "CD",
-    "description": "Erreway",
-    "code": "ere",
-    "price": "2000",
-    "stock": "10",
-    "category": "CD",
+    "title": "Celuluar",
+    "description": "Iphone 14",
+    "code": "8754477",
+    "price": 40000,
+    "stock": 100,
+    "category": "Celular",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "id": 3,
+    "title": "PC",
+    "description": "Dell Core i7",
+    "code": "PC2983",
+    "price": "1200",
+    "stock": "20",
+    "category": "Computadoras",
     "status": true,
     "thumbnails": []
   }
