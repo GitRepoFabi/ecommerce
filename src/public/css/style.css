@@ -1,0 +1,18 @@
+/*Estilos para la página Productos WebSocket*/
+
+h1 {
+    text-align: center;
+    text-decoration: underline;
+}
+
+li {
+    list-style-type:none;
+}
+
+/*****************************************/
+
+
+/* Estilos para la páagina Productos */
+div strong {
+    text-decoration: underline;
+}

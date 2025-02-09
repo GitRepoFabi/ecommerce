@@ -1,0 +1,16 @@
+<h1>Productos</h1>
+
+<!-- Contenedor donde se mostrarán los productos -->
+<div id="productos-lista" class="product-container">
+    {{#each products}}
+    <div class="product-card" data-id="{{id}}">
+        <strong>Title:</strong> {{title}} <br/> 
+        <strong>Description:</strong> {{description}} <br/>
+        <strong>Code:</strong> {{code}} <br/>
+        <strong>Price:</strong> ${{price}} <br/>
+        <strong>Stock:</strong> {{stock}} <br/>
+        <strong>Category:</strong> {{category}} <br/>
+        <p></p>
+    </div>
+    {{/each}}
+</div>

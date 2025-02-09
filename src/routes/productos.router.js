@@ -1,6 +1,6 @@
 import { log } from "console";
 import { json, Router } from "express";
-import { promises as fs} from 'fs';
+import { promises as fs } from 'fs';
 import { resolve } from "path";
 
 const router = Router();
@@ -13,32 +13,33 @@ let productos = [];
 
 //GET - Leer todos los productos
 
-router.get('/', async (req,res) => {
+router.get('/', async (req, res) => {
 
     try {
         // Leer el archivo productos.json
         const lecturaProductos = await fs.readFile('src/db/productos.json', 'utf-8');
 
         // Verificar si el archivo está vacío
-        if (!lecturaProductos.trim()) { 
-            return res.status(400).send({ status: 'Error', message: 'El archivo productos.json está vacío, cree un producto' }); 
-        } 
+        if (!lecturaProductos.trim()) {
+            return res.status(400).send({ status: 'Error', message: 'El archivo productos.json está vacío, cree un producto' });
+        }
 
         //Lo transformo a objeto
         const contenidoObj = JSON.parse(lecturaProductos);
 
-        if (!contenidoObj.length) { 
-            return res.status(400).send({ status: 'Error', message: 'No hay productos disponibles' }); 
-        } 
-        res.send({ status: 'OK', productos: contenidoObj });  
+        if (!contenidoObj.length) {
+            return res.status(400).send({ status: 'Error', message: 'No hay productos disponibles' });
+        }
+        res.send({ status: 'OK', productos: contenidoObj });
     } catch (error) {
-        if (error.code === 'ENOENT') { 
+        if (error.code === 'ENOENT') {
             // El archivo no existe 
             //res.status(404).send({ status: 'Error', message: 'El archivo productos.json no existe' }); }
-            res.status(404).send({ status: 'Error', message: 'Debe de crear al menos un producto' }); } 
+            res.status(404).send({ status: 'Error', message: 'Debe de crear al menos un producto' });
+        }
         else {
-            res.status(500).send({ status: 'Error', message: `Error al leer el archivo: ${error.message}` }); 
-        } 
+            res.status(500).send({ status: 'Error', message: `Error al leer el archivo: ${error.message}` });
+        }
     }
 });
 
@@ -46,7 +47,7 @@ router.get('/', async (req,res) => {
 
 //GET by Id - Mostrar el producto por el Id que me pasaron
 
-router.get('/:id', async (req,res) => {
+router.get('/:id', async (req, res) => {
     try {
 
         let id = req.params.id
@@ -56,17 +57,17 @@ router.get('/:id', async (req,res) => {
 
         //Lo transformo a objeto
         const contenidoObj = JSON.parse(lecturaProductos);
-        
+
         //let productoFiltrado = arrayRecuperado.find((pr) => pr.id == id);
         let productoFiltrado = contenidoObj.find((pr) => pr.id == id);
 
         //Si no tengo ningún producto retorno el error
-        if(!productoFiltrado){
-            return res.status(400).send({status:"Error",message:"No se encuentra el producto enviado"});
-        } 
+        if (!productoFiltrado) {
+            return res.status(400).send({ status: "Error", message: "No se encuentra el producto enviado" });
+        }
 
-        res.send({status:"OK", productos:productoFiltrado});
-        
+        res.send({ status: "OK", productos: productoFiltrado });
+
     } catch (error) {
         throw new Error(`Ha ocurrido un error: ${error}`);
     }
@@ -74,8 +75,8 @@ router.get('/:id', async (req,res) => {
 
 //POST - Creación de productos
 
-router.post('/', async (req,res) => {
-    
+router.post('/', async (req, res) => {
+
     try {
         const acceso = await fs.access('src/db/productos.json');
         console.log('Existe');
@@ -93,12 +94,12 @@ router.post('/', async (req,res) => {
 
         //Realizo los controles correspondientes con la info que si o si me debe de llegar
         //if (!body.titulo||!body.descripión||!body.codigo||!body.precio||!body.stock||!body.categoria){
-        if (!body.title||!body.description||!body.code||!body.price||!body.stock||!body.category){    
-            return res.status(400).send({status:"Error",error:"Falta completar algún dato"});
+        if (!body.title || !body.description || !body.code || !body.price || !body.stock || !body.category) {
+            return res.status(400).send({ status: "Error", error: "Falta completar algún dato" });
         }
 
         //Armo el nuevo arreglo para luego agregarlo al array de productos
-        let nuevoArreglo = {id, ...body,status,thumbnails}
+        let nuevoArreglo = { id, ...body, status, thumbnails }
 
         console.log(JSON.stringify(nuevoArreglo, null, 2));
 
@@ -112,7 +113,7 @@ router.post('/', async (req,res) => {
         console.log('Se ha agregado el producto correctamente.');
 
         //Retorno que se agregó el producto y lo muestro por pantalla
-        res.send({status:"OK",message:"Se ha agregado el producto correctamente",productos: productos});            
+        res.send({ status: "OK", message: "Se ha agregado el producto correctamente", productos: productos });
 
     } catch {
         let id = productos.length + 1;
@@ -122,12 +123,12 @@ router.post('/', async (req,res) => {
 
         //Realizo los controles correspondientes con la info que si o si me debe de llegar
         //if (!body.titulo||!body.descripión||!body.codigo||!body.precio||!body.stock||!body.categoria){
-        if (!body.title||!body.description||!body.code||!body.price||!body.stock||!body.category){
-            return res.status(400).send({status:"Error",error:"Falta completar algún dato"});
+        if (!body.title || !body.description || !body.code || !body.price || !body.stock || !body.category) {
+            return res.status(400).send({ status: "Error", error: "Falta completar algún dato" });
         }
 
         //Armo el nuevo arreglo para luego agregarlo al array de productos
-        let nuevoArreglo = {id, ...body,status,thumbnails}
+        let nuevoArreglo = { id, ...body, status, thumbnails }
 
         //Agrego el nuevo arreglo al arreglo Productos
         productos.push(nuevoArreglo);
@@ -138,7 +139,7 @@ router.post('/', async (req,res) => {
         console.log('Se ha agregado el producto correctamente.');
 
         //Retorno que se agregó el producto y lo muestro por pantalla
-        res.send({status:"OK",message:"Se ha agregado el producto correctamente",productos: productos});              
+        res.send({ status: "OK", message: "Se ha agregado el producto correctamente", productos: productos });
     }
 });
 
@@ -148,54 +149,54 @@ router.post('/', async (req,res) => {
 //PUT - Edición de pruducto por Id
 
 //Ejemplo actualización de una persona en un archivo (método PUT)
-router.put('/:id', async (req,res) => {
+router.put('/:id', async (req, res) => {
 
     const idParametro = req.params.id;
     //const {titulo,descripión,codigo,precio,stock,categoria} = req.body;
-    const {title,description,code,price,stock,category} = req.body;
+    const { title, description, code, price, stock, category } = req.body;
 
     //if (!body.title||!body.description||!body.code||!body.price||!body.stock||!body.category){
-    if (!title||!description||!code||!price||!stock||!category){        
-        return res.status(400).send({status:"Error",error:"Falta enviar algua de las propiedades obligatorias para actualizar el producto"});
+    if (!title || !description || !code || !price || !stock || !category) {
+        return res.status(400).send({ status: "Error", error: "Falta enviar algua de las propiedades obligatorias para actualizar el producto" });
     }
 
     try {
-    const productos = await fs.readFile("src/db/productos.json","utf-8");
+        const productos = await fs.readFile("src/db/productos.json", "utf-8");
 
-    const contenidoObj = JSON.parse(productos);
+        const contenidoObj = JSON.parse(productos);
 
-    console.log("Productos inicialmente:",contenidoObj);
+        console.log("Productos inicialmente:", contenidoObj);
 
-    // Encuentra el índice del objeto que deseas actualizar
-    let indice = contenidoObj.findIndex(pr => pr.id == idParametro);
+        // Encuentra el índice del objeto que deseas actualizar
+        let indice = contenidoObj.findIndex(pr => pr.id == idParametro);
 
-    // Verifica si el objeto fue encontrado
-    if (indice !== -1) {
-        // Actualiza la propiedad deseada
-        //contenidoObj[indice].edad = 31;
-        contenidoObj[indice].title = title;
-        contenidoObj[indice].description = description;
-        contenidoObj[indice].code = code;
-        contenidoObj[indice].price = price;
-        contenidoObj[indice].stock = stock;
-        contenidoObj[indice].category = category;
+        // Verifica si el objeto fue encontrado
+        if (indice !== -1) {
+            // Actualiza la propiedad deseada
+            //contenidoObj[indice].edad = 31;
+            contenidoObj[indice].title = title;
+            contenidoObj[indice].description = description;
+            contenidoObj[indice].code = code;
+            contenidoObj[indice].price = price;
+            contenidoObj[indice].stock = stock;
+            contenidoObj[indice].category = category;
+        }
+
+        await fs.writeFile('src/db/productos.json', JSON.stringify(contenidoObj, null, 2));
+
+        res.send({ status: 'OK', message: 'Productos finales: ', contenidoObj });
+    } catch (error) {
+        res.status(500).send({ status: 'Error', message: 'Ha ocurrido un error en la edición del producto:', error });
     }
-
-    await fs.writeFile('src/db/productos.json',JSON.stringify(contenidoObj,null,2));
-
-    res.send({status:'OK',message:'Productos finales: ', contenidoObj});
-    } catch(error) {
-        res.status(500).send({status:'Error',message:'Ha ocurrido un error en la edición del producto:', error});
-}
 });
 
 // Fin método PUT //
 
 //DELETE - Borrar un producto
 
-router.delete('/:id', async (req,res) => {
+router.delete('/:id', async (req, res) => {
     let id = req.params.id;
-    
+
     try {
 
         // Leer el archivo productos.json
@@ -210,10 +211,10 @@ router.delete('/:id', async (req,res) => {
         //Persiste la info del arreglo en el archivo productos.json
         await fs.writeFile('src/db/productos.json', JSON.stringify(productoFiltrado, null, 2));
 
-        res.send({status:'OK',message:"Producto eliminado correctamente", producto: productoFiltrado})
+        res.send({ status: 'OK', message: "Producto eliminado correctamente", producto: productoFiltrado })
 
     } catch (error) {
-        res.status(500).send({status:'error',message:'Error al eliminar el producto'});
+        res.status(500).send({ status: 'error', message: 'Error al eliminar el producto' });
     }
 
     // Fin método DELETE //

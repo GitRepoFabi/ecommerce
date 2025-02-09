@@ -1,0 +1,30 @@
+<h1>Productos en tiempo real</h1>
+
+<ul id="productos-lista"></ul>
+
+<form id="formulario">
+    </label>Title:</label>
+    <input type="text" id="title" required="true"/> <br/><br/>
+    </label>Description:</label>
+    <input type="text" id="description" required="true"/> <br/><br/>
+    </label>Code:</label>
+    <input type="text" id="code" required="true"/> <br/><br/>
+    </label>Price:</label>
+    <input type="number" id="price" required="true"/> <br/><br/>
+    </label>Stock:</label>
+    <input type="number" id="stock" required="true"/> <br/><br/>     
+    </label>Category:</label>
+    <input type="text" id="category" required="true"/> <br/><br/>
+
+    <label class="checkbox-container">
+        <input type="checkbox" id="status" checked />
+        Disponible <br/><br/>
+    </label>
+
+    <button type="submit">Crear producto</button>
+</form>
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

@@ -1,23 +1,23 @@
 [
   {
     "id": 1,
-    "titulo": "Sillón",
-    "descripión": "Redondo 14",
-    "codigo": "8754477",
-    "precio": 40000,
-    "stock": 100,
-    "categoria": "Sillón",
+    "title": "Cenicero",
+    "description": "Cenicero Rojo",
+    "code": "0982",
+    "price": "100",
+    "stock": "10",
+    "category": "Ceniceros",
     "status": true,
     "thumbnails": []
   },
   {
     "id": 2,
-    "titulo": "Celuluar",
-    "descripión": "Iphone 14",
-    "codigo": "8754477",
-    "precio": 40000,
-    "stock": 100,
-    "categoria": "Celular",
+    "title": "CD",
+    "description": "Erreway",
+    "code": "ere",
+    "price": "2000",
+    "stock": "10",
+    "category": "CD",
     "status": true,
     "thumbnails": []
   }
