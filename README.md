@@ -98,4 +98,71 @@
   
 ![image](https://github.com/user-attachments/assets/d1032b92-9339-47cc-82cd-0c1f21080426)
 
+<h2> Segunda pre-entrega – Comisión 72840 – Programación Backend I: Desarrollo Avanzado de Backend - Coderhouse </h2>
+
+<h3>Consigna del entrega:</h3>
+
+<p>
+  Configurar nuestro proyecto para que trabaje con Handlebars y websocket.
+</p>
+
+<h3> Aspectos a incluir </h3>
+<p>
+Configurar el servidor para integrar el motor de plantillas Handlebars e instalar un servidor de socket.io al mismo.
+
+Crear una vista “home.handlebars” la cual contenga una lista de todos los productos agregados hasta el momento
+
+Además, crear una vista “realTimeProducts.handlebars”, la cual vivirá en el endpoint “/realtimeproducts” en nuestro views router, ésta contendrá la misma lista de productos, sin embargo, ésta trabajará con websockets.
+
+Al trabajar con websockets, cada vez que creemos un producto nuevo, o bien cada vez que eliminemos un producto, se debe actualizar automáticamente en dicha vista la lista.
+
+Además, debíamos realizar las correcciones indicadas por el docente referido a la primer pre-entrega. </p>
+
+<h3>Página Productos con Handlebars:</h3>
+<p>URL: <a href="http://localhost:8080/">http://localhost:8080</a></p>
+<p>El objetivo de la misma es mostrar todos los productos que están en el archivo 'productos.json'</p>
+
+![image](https://github.com/user-attachments/assets/20fc1bf2-68da-4230-8b00-38ef32f78b41)
+
+<p>Como se ve en la imágen esto es lo que despiega, si vamos al archivo 'productos.json' veremos lo siguiente: </p>
+
+![image](https://github.com/user-attachments/assets/e49820b7-221c-4b9d-911f-d09b11aac13f)
+
+<h3>Página Productos con Websocket:</h3>
+<p>URL: <a href="http://localhost:8080/realtimeproducts">http://localhost:8080/realtimeproducts</a></p>
+<p>El objetivo de la misma es mostrar todos los productos que están en el archivo 'productos.json pero esta vez utilizando la tecnología Websocket.
+
+  También dicha información la extrae del archivo 'productos.json'.
+
+  Adicional a esto, la página posee un formulario donde si se quiere se puede crear un nuevo producto.
+</p>
+
+![image](https://github.com/user-attachments/assets/ae39c59f-d4c2-4870-b1ab-ac13c174639a)
+
+<p>Como se ve en la imágen esto es lo que despiega, si vamos al archivo 'productos.json' veremos lo siguiente: </p>
+
+![image](https://github.com/user-attachments/assets/e49820b7-221c-4b9d-911f-d09b11aac13f)
+
+Si agregamos un nuevo producto lo veremos reflejado inmediatamente en nuestra pantalla:
+
+ANTES:
+
+![image](https://github.com/user-attachments/assets/462774a2-9f52-4846-b03b-1e21d364c71c)
+
+DESPUES:
+![image](https://github.com/user-attachments/assets/8ff0c5ab-fd8f-4889-9b06-c642abc48ab6)
+
+También podemos corroborar que en el archivo 'Productos.json' se agregó correctamente dicho registro:
+
+![image](https://github.com/user-attachments/assets/36e5b5ac-44cb-43c5-9b83-5b9ea7430b66)
+
+Si se quiere eliminar el producto recién creado por ej clickeamos sobre el botón "Eliminar" y procederá con su eliminación:
+
+![image](https://github.com/user-attachments/assets/2b6dc0d3-b216-419a-8fae-b247c3f97f96)
+
+Archivo 'Productos.json':
+
+![image](https://github.com/user-attachments/assets/eb0a8936-17bb-4480-8e6e-436f66040a2f)
+
+
 
