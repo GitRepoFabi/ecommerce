@@ -1,11 +1,14 @@
 <h1 class="text-center">Productos</h1>
 
-<!-- Contenedor donde se mostrarán los productos -->
-<!-- <div id="productos-lista" class="product-container"> -->
+<p>
 
-<div class="container mt-4">
+    CarritoId: {{this.carritoId}}
+</p>
+
+<!-- Contenedor donde se mostrarán los productos -->
+{{!-- <div id="productos-lista" class="product-container">
     {{#each products}}
-{{!--     <div class="product-card" data-id="{{id}}">
+    <div class="product-card" data-id="{{id}}">
         <strong>Title:</strong> {{this.title}} <br/> 
         <strong>Description:</strong> {{this.description}} <br/>
         <strong>Code:</strong> {{this.code}} <br/>
@@ -13,18 +16,11 @@
         <strong>Stock:</strong> {{this.stock}} <br/>
         <strong>Category:</strong> {{this.category}} <br/>
         <p></p>
-    </div> --}}
-    <div class="card mb-3 p-3 border-primary">
-        <p class="fw-bold">Title: {{this.title}} &nbsp; Description: {{this.description}}</p>
-        <p>Code: <span class="badge bg-secondary">{{this.code}}</span> &nbsp; Price: <span class="badge bg-success">{{this.price}}</span></p>
-        <p>Stock: <span class="fw-bold">{{this.stock}}</span> Category: <span class="fw-bold">{{this.category}}</span> </p>
-        <p>Status: {{#if status}}<span class="fw-bold">Disponible</span>{{else}}<span class="fw-bold">No disponible</span>{{/if}}</p>
     </div>
-
     {{/each}}
-</div>
+</div> --}}
 
-{{!-- {{#if isValid}}
+{{#if isValid}}
 <div class="container mt-4">
     {{#each docs}}
     <div class="card mb-3 p-3 border-primary">
@@ -32,7 +28,13 @@
         <p>Code: <span class="badge bg-secondary">{{this.code}}</span> &nbsp; Price: <span class="badge bg-success">{{this.price}}</span></p>
         <p>Stock: <span class="fw-bold">{{this.stock}}</span> Category: <span class="fw-bold">{{this.category}}</span> </p>
         <p>Status: {{#if status}}<span class="fw-bold">Disponible</span>{{else}}<span class="fw-bold">No disponible</span>{{/if}}</p>
-        <button type="button" class="btn btn-success" data-product-id="{{this._id}}" data-carrito-id="{{carritoId}}">Agregar al carrito</button>
+        <p>CarritoId: {{this.carritoId}}</p>
+
+        <button 
+            class="btn btn-success" 
+            onclick="agregarAlCarrito('{{this._id}}', '{{carritoId}}')"
+        >Agregar al carrito</button>
+
     </div>
     {{/each}}
 </div>
@@ -52,4 +54,5 @@
     <h1 class="text-danger">No hay productos para mostrar</h1>
 </div>
 {{/if}}
- --}}
+
+<script src="/js/carrito.js"></script>

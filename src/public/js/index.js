@@ -84,3 +84,7 @@ socket.on('actualizarProductos', (productos) => {
       listaProductos.appendChild(item);
     });
 });
+
+
+
+

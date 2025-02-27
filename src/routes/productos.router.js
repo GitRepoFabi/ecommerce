@@ -1,7 +1,5 @@
-import { log } from "console";
 import { json, Router } from "express";
 import { promises as fs } from 'fs';
-import { resolve } from "path";
 
 const router = Router();
 

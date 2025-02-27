@@ -4,10 +4,13 @@ import handlebars from 'express-handlebars';
 import routerProducts from './routes/productos.router.js';
 import routerCarts from './routes/carts.router.js';
 import viewRouter from './routes/viewRouter.js';
+import routerProductsDB from './routes/productsdb.router.js';
+import routerCarritoDB from './routes/cartsdb.router.js';
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
 import fs from 'fs';
 import path from 'path';
+import {connectMongooseDB} from './db/connection.js';
 
 const puerto = 8080;
 
@@ -20,8 +23,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 
 /*Ruteo*/
+//FS
 app.use("/api/products", routerProducts);
 app.use("/api/carts", routerCarts);
+
+
+//BD
+app.use("/api/productsdb",routerProductsDB);
+app.use("/api/cartsbd",routerCarritoDB);
 
 /* Configuración para Handlerbars */
 app.engine('handlebars', handlebars.engine());
@@ -31,6 +40,9 @@ app.use(express.static(__dirname + '/public'));
 app.use('/', viewRouter);
 
 const httpServer = app.listen(puerto, () => console.log(`Servidor escuchando en el puerto ${puerto}`));
+
+//Se conecta a la BD de Mongo Atlas
+connectMongooseDB()
 
 const io = new Server(httpServer);
 
