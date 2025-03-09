@@ -1,9 +1,14 @@
 <h1 class="text-center">Productos</h1>
 
-<p>
+<!-- Botón con hipervínculo a la página para ver los productos del carrito -->
+<a href="http://localhost:8080/api/cartsbd/detail/{{carritoId}}" class="d-flex justify-content-center mt-3">
+    <button class="btn btn-success">Ver Detalles del Carrito</button>
+</a>
 
-    CarritoId: {{this.carritoId}}
-</p>
+<br/><br/>
+
+<p>CarritoId: {{this.carritoId}} </p>
+
 
 <!-- Contenedor donde se mostrarán los productos -->
 {{!-- <div id="productos-lista" class="product-container">
