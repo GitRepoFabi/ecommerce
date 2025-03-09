@@ -215,4 +215,31 @@ router.delete('/:cid', async (req, res) => {
 });
 
 
+// Endpoint para obtener los productos de un carrito por su ID
+router.get('/detail/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Buscar el carrito y poblar los productos
+        const cart = await carsModel.findById(id).populate('products.product');
+
+        if (!cart) {
+            return res.status(404).json({ error: 'Carrito no encontrado' });
+        }
+
+        // Mapear los productos para asegurarnos de que están accesibles para Handlebars
+        const products = cart.products.map(item => ({
+            title: item.product.title,
+            price: item.product.price,
+            quantity: item.quantity,
+        }));
+
+        // Renderizar la vista Handlebars pasando los productos
+        res.render('cart', { products });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener el carrito' });
+    }
+});
+
 export default router;
