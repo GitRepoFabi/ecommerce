@@ -1,0 +1,19 @@
+ <h1 class="text-center mt-4">Productos del Carrito</h1>
+
+<div class="container mt-4">
+    {{#if products.length}}
+        <ul>
+            {{#each products}}
+
+            <div class="card mb-3 p-3 border-primary">
+                <p class="fw-bold">Titulo: {{this.title}}</p>
+                <p>Price: <span class="badge bg-success">{{this.price}}</span></p>
+                <p>Cantidad: <span class="badge bg-success">{{this.quantity}}</span></p>
+            </div>
+            {{/each}}
+        </ul>
+    {{else}}
+        <p>El carrito está vacío.</p>
+    {{/if}}
+
+</div>
